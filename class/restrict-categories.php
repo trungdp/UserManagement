@@ -260,8 +260,8 @@ class RestrictCategories {
 				_e('Phân quyền người dùng', 'restrict-categories');
 
 				if ( isset( $_REQUEST['rc-search'] ) && !empty( $_REQUEST['rc-search'] ) ) {
-					echo '<span class="subtitle">' . sprintf( __( 'Search results for "%s"' , 'restrict-categories'), $_REQUEST['rc-search'] ) . '</span>';
-					echo sprintf( '<span class="subtitle"><a href="%1$s">%2$s</a></span>', $users_tab, __( 'View All Users', 'restrict-categories' ) );
+					echo '<span class="subtitle">' . sprintf( __( 'Tìm kiếm cho "%s"' , 'restrict-categories'), $_REQUEST['rc-search'] ) . '</span>';
+					echo sprintf( '<span class="subtitle"><a href="%1$s">%2$s</a></span>', $users_tab, __( 'Xem tất cả', 'restrict-categories' ) );
 				}
 			?>
 			</h2>
@@ -317,7 +317,6 @@ class RestrictCategories {
                 <?php endif; ?>
 
             <h3><?php _e('Cài đặt lại về mặc định	', 'restrict-categories'); ?></h3>
-// 			<p><?php _e('Tùy chọn này sẽ đặt lại tất cả các thay đổi bạn đã thực hiện về cấu hình mặc định.  <strong>Bạn không thể hoàn tác quá trình này</strong>.', 'restrict-categories'); ?></p>
 			<form method="post">
 				<?php submit_button( __( 'Cài đặt lại', 'restrict-categories' ), 'secondary', 'reset' ); ?>
                 <input type="hidden" name="action" value="reset" />
@@ -480,8 +479,7 @@ class RestrictCats_User_Role_Boxes {
 		?>
 			<div id="side-sortables" class="metabox-holder" style="float:left; padding:5px;">
 				<div class="postbox">
-					<h3 class="hndle"><span><?php echo $value['name']; ?></span></h3>
-
+					<h3 class="hndle"><span><?php echo $value; ?></span></h3>
 	                <div class="inside" style="padding:0 10px;">
 						<div class="taxonomydiv">
 	                    	<ul id="taxonomy-category-tabs" class="taxonomy-tabs add-menu-item-tabs">
@@ -537,7 +535,7 @@ class RestrictCats_User_Role_Boxes {
 							$selected      = array_values( $shift_default );
 						?>
 						<p style="padding-left:10px;">
-							<strong><?php echo count( $selected ); ?></strong> <?php echo ( count( $selected ) > 1 || count( $selected ) == 0 ) ? 'categories' : 'category'; ?> selected
+							<strong><?php echo count( $selected ); ?></strong> <?php echo ( count( $selected ) > 1 || count( $selected ) == 0 ) ? 'mục' : 'mục'; ?> được chọn
 							<span class="list-controls" style="float:right; margin-top: 0;">
 								<a class="select-all" id="<?php echo $id; ?>-select-all" href="#"><?php _e( 'Chọn tất cả', 'restrict-categories' ); ?></a>
 							</span>
@@ -574,7 +572,7 @@ class RestrictCats_User_Role_Boxes {
 		$total_items = $this->_pagination_args['total_items'];
 		$total_pages = $this->_pagination_args['total_pages'];
 
-		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
+		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s mục', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
 		$current = $this->get_pagenum();
 		$removable_query_args = wp_removable_query_args();
