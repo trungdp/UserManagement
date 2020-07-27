@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ce3d3bb-8f19-4cc4-b427-bd3a8cd3ae26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/js/restrict-categories.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class/restrict-categories.php" beforeDir="false" afterPath="$PROJECT_DIR$/class/restrict-categories.php" afterDir="false" />
-    </list>
+    <list default="true" id="0ce3d3bb-8f19-4cc4-b427-bd3a8cd3ae26" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,6 +63,7 @@
       <workItem from="1590487928449" duration="539000" />
       <workItem from="1590521427837" duration="7432000" />
       <workItem from="1590562728285" duration="2028000" />
+      <workItem from="1590662938245" duration="112000" />
     </task>
     <servers />
   </component>
@@ -83,5 +80,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

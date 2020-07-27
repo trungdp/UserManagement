@@ -10,8 +10,16 @@
 */
 if ( ! defined( 'ABSPATH' ) ) exit; // Thoát nếu truy cập trực tiếp
 
-include 'define.php';
+include 'define_roles.php';         // import roles
 
+// Các chức năng trong plugin được viết dưới dạng các Class(ngoại trừ file Restrict_Author) để
+// phù hợp với tư duy lập trình hướng đối tượng.
+
+// Class User_Manager_Plugin là class chính của dự án. có chức năng import các class chức 
+// năng khác và thực hiện hoạt động cần thiết lúc kích hoạt plugin hoặc ngừng kích hoạt 
+// plugin(qua hàm activation và deactivation). Một số hàm quan trọng: 
+// - include(): để gọi các class chức năng khác; 
+// - remove_default_role và add_new_roles để thêm các role cần thiết lúc active plugin.
 class User_Manager_Plugin{
 
 	function __construct(){
@@ -40,39 +48,21 @@ class User_Manager_Plugin{
 
   private function includes() {
     if ( is_admin() ) {
-//       // General admin functions.
       require( plugin_dir_path( __FILE__ ) . '/class/Restrict-Author.php' );
-      require( plugin_dir_path( __FILE__ ) . '/class/restrict-categories.php' );
-//
-//       // Plugin settings.
-//       require_once( $this->dir . 'admin/class-settings.php' );
-//
-//       // User management.
-//       require_once( $this->dir . 'admin/class-manage-users.php' );
-//       require_once( $this->dir . 'admin/class-user-edit.php'    );
-//       require_once( $this->dir . 'admin/class-user-new.php'     );
-//
-//       // Edit posts.
-//       require_once( $this->dir . 'admin/class-meta-box-content-permissions.php' );
-//
-//       // Role management.
-//       require_once( $this->dir . 'admin/class-manage-roles.php'          );
-//       require_once( $this->dir . 'admin/class-roles.php'                 );
-//       require_once( $this->dir . 'admin/class-role-edit.php'             );
-//       require_once( $this->dir . 'admin/class-role-new.php'              );
-//       require_once( $this->dir . 'admin/class-meta-box-publish-role.php' );
-//       require_once( $this->dir . 'admin/class-meta-box-custom-cap.php'   );
-//
-//       // Edit capabilities tabs and groups.
-//       require_once( $this->dir . 'admin/class-cap-tabs.php'       );
-//       require_once( $this->dir . 'admin/class-cap-section.php'    );
-//       require_once( $this->dir . 'admin/class-cap-control.php'    );
+      require( plugin_dir_path( __FILE__ ) . '/class/Restrict-Categories.php' );
+      require( plugin_dir_path( __FILE__ ) . '/class/Post-ACL.php' );
     }
   }
 
   private function setup_actions() {
     register_activation_hook( __FILE__, array( $this, 'activation' ) );
     register_deactivation_hook( __FILE__, array($this, 'deactivation'));
+    add_action('admin_menu', 'my_remove_sub_menus');
+  }
+
+  function my_remove_sub_menus() {
+    remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=category');
+    remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag');
   }
 
   public function activation() {

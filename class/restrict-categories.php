@@ -1,6 +1,6 @@
 <?php
 
-class RestrictCategories {
+class Restrict_Categories {
 
 	protected $plugin_name = 'restrict-roles-categories';
 
@@ -21,7 +21,7 @@ class RestrictCategories {
 
 	public static function instance() {
 		if ( null === self::$instance ) {
-			self::$instance = new RestrictCategories;
+			self::$instance = new Restrict_Categories;
 
 			if ( is_admin() ) {
 				$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : false;
@@ -149,6 +149,7 @@ class RestrictCategories {
 
 		foreach ( $roles as $name => $id ) {
 			$rc_options[] = array(
+				'role'			=> $id,
 				'name'      => $name,
 				'id'        => "{$id}_cats",
 				'options'   => $cats
@@ -212,10 +213,10 @@ class RestrictCategories {
 		$options = get_option( 'RestrictCats-screen-options' );
 
 		if ( $current_screen->id == 'settings_page_restrict-categories' ){
-			$current = '<h5>Show on screen</h5>
+			$current = '<h5>Tuỳ chọn hiển thị</h5>
 					<input type="text" value="' . $options['roles_per_page'] . '" maxlength="3" id="restrict-categories-roles-per-page" name="RestrictCats-screen-options[roles_per_page]" class="screen-per-page"> <label for="restrict-categories-roles-per-page">Quyền</label>
 					<input type="text" value="' . $options['users_per_page'] . '" maxlength="3" id="restrict-categories-users-per-page" name="RestrictCats-screen-options[users_per_page]" class="screen-per-page"> <label for="restrict-categories-users-per-page">Người dùng</label>
-					<input type="submit" value="Apply" class="button" id="restrict-categories-screen-options-apply" name="restrict-categories-screen-options-apply">';
+					<input type="submit" value="Lưu" class="button" id="restrict-categories-screen-options-apply" name="restrict-categories-screen-options-apply">';
 		}
 
 		return $current;
@@ -258,18 +259,8 @@ class RestrictCategories {
 			<h2>
 			<?php
 				_e('Phân quyền người dùng', 'restrict-categories');
-
-				if ( isset( $_REQUEST['rc-search'] ) && !empty( $_REQUEST['rc-search'] ) ) {
-					echo '<span class="subtitle">' . sprintf( __( 'Tìm kiếm cho "%s"' , 'restrict-categories'), $_REQUEST['rc-search'] ) . '</span>';
-					echo sprintf( '<span class="subtitle"><a href="%1$s">%2$s</a></span>', $users_tab, __( 'Xem tất cả', 'restrict-categories' ) );
-				}
 			?>
 			</h2>
-
-            <h2 class="nav-tab-wrapper">
-            	<a href="<?php echo $roles_tab; ?>" class="nav-tab <?php echo ( $tab == 'roles' ) ? 'nav-tab-active' : ''; ?>"><?php _e( 'Quyền', 'restrict-categories' ); ?></a>
-                <a href="<?php echo $users_tab; ?>" class="nav-tab <?php echo ( $tab == 'users' ) ? 'nav-tab-active' : ''; ?>"><?php _e( 'Người dùng', 'restrict-categories' ); ?></a>
-            </h2>
 
 			<?php
                 $boxes = new RestrictCats_User_Role_Boxes();
@@ -453,6 +444,7 @@ class RestrictCats_User_Role_Boxes {
 		foreach ( $options as $key => $value ) :
 
 			$id = $value['id'];
+			$role = get_role($value['role']);
 
 			if ( isset( $settings[ $id ] ) && is_array( $settings[ $id ] ) )
 				$selected = $settings[ $id ];
@@ -479,13 +471,9 @@ class RestrictCats_User_Role_Boxes {
 		?>
 			<div id="side-sortables" class="metabox-holder" style="float:left; padding:5px;">
 				<div class="postbox">
-					<h3 class="hndle"><span><?php echo $value; ?></span></h3>
+					<h3 class="hndle"><span><?php echo $value['name']; ?></span></h3>
 	                <div class="inside" style="padding:0 10px;">
 						<div class="taxonomydiv">
-	                    	<ul id="taxonomy-category-tabs" class="taxonomy-tabs add-menu-item-tabs">
-	                        	<li<?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>><a href="<?php echo add_query_arg( $id . '-tab', 'all', $roles_tab ); ?>" class="nav-tab-link">Xem tất cả</a></li>
-	                            <li<?php echo ( 'popular' == $current_tab ? ' class="tabs"' : '' ); ?>><a href="<?php echo $users_tab; ?>" class="nav-tab-link">Sử dụng nhiều</a></li>
-	                        </ul>
 							<div id="<?php echo $id; ?>-all" class="tabs-panel <?php echo ( 'all' == $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive' ); ?>">
 								<ul class="categorychecklist form-no-clear">
 								<?php
@@ -733,7 +721,7 @@ class RestrictCats_Walker_Category_Checklist extends Walker {
 
 function restrict_categories_plugin_instance() {
 
-	return RestrictCategories::instance();
+	return Restrict_Categories::instance();
 }
 
 restrict_categories_plugin_instance();

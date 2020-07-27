@@ -1,5 +1,9 @@
 <?php 
 
+//File define_role chứa các khai báo role cần thiết cho một trang web tin tức, 
+//dùng hàm define(<name>,<value>) để khai báo, giá trị 'name' được khai báo
+//là một mảng các capability 'value'
+
 define('Author_Caps',array( 
   'read' => true,
   'edit_posts' => true,
@@ -18,14 +22,14 @@ define('Editor_Caps',array(
   'read' => true,
   'edit_posts' => true,
   'edit_others_posts'=>true,
+  'edit_private_posts'=>true,
+  'edit_published_posts'=>true,
   'publish_posts'=>true,
   'read_private_posts'=>true,
   'delete_posts'=>true,
   'delete_private_posts'=>true,
   'delete_published_posts'=>true,
   'delete_others_posts'=>true,
-  'edit_private_posts'=>true,
-  'edit_published_post'=>true,
   'edit_pages' => true,
   'edit_others_pages'=>true,
   'publish_pages'=>true,
